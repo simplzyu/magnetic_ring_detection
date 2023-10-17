@@ -1,0 +1,1 @@
+# magnetic_ring_detection
