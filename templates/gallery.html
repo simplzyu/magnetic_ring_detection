@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Image Gallery</title>
+</head>
+<body>
+	<h1>Image Gallery</h1>
+	{% for image_name in image_names %}
+		<a href="{{ url_for('image', image_name=image_name) }}">
+			<img src="{{ url_for('static', filename='images/' + image_name) }}" alt="{{ image_name }}">
+		</a>
+	{% endfor %}
+
+	{% if prev_page %}
+		<button onclick="location.href='{{ prev_page }}'">Previous Page</button>
+	{% endif %}
+
+	{% if next_page %}
+		<button onclick="location.href='{{ next_page }}'">Next Page</button>
+	{% endif %}
+</body>
+</html>

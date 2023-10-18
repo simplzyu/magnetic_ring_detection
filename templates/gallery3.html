@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gallery</title>
+</head>
+<body style="text-align:center">
+    <h2>[{{ dir }}_{{ pic_nam }}]</h2>
+    <img src="{{ url_for('static', filename='images3/' + dir +'/' + pic_nam +'.jpg') }}" alt="{{ pic_nam }}">
+
+    <form method="POST">
+        <label for="team_id">picture:</label>
+        <input type="text" id="pic_nam" name="pic_nam" value="{{ dir }}_{{ pic_nam }}" readonly><br/>
+        <label for="team_id">label :</label>
+        <input type="text" id="label" name="label" value="{{ label }}"><br/>
+        <input type="hidden" name="current_image" value="{{ current_image }}">
+        <input type="submit" name="submit" value="Previous">
+        <input type="submit" name="submit" value="Next">
+    </form>
+</body>
+</html>

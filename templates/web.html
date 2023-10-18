@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>招商银行第7季Fintech训练营第三期榜单</title>
+    <style>
+      body {
+        justify-content: center;
+        align-items: center;
+      }
+      table {
+        margin: auto;
+        display: table;
+        width: 600px;
+        border-collapse: collapse;
+        table-layout: fixed;
+      }
+      th, td {
+        padding: 15px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+
+      .column1 {
+        width: 30%;
+      }
+      .column2 {
+        width: 60%;
+      }
+      .column3 {
+        width: 20%;
+      }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body style="text-align:center; width:100%">
+    <h1>磁环检测系统</h1>
+    <form action="/upload" enctype='multipart/form-data' method='POST'>
+        <div style="display: flex; justify-content: center;">
+            <div>
+                <div>
+                    <label>视频:</label>
+                    <input type="file" name="file">
+                </div>
+            </div>
+            <input type="submit" value="提交">
+        </div>
+    </form>
+    <canvas id="canvas" width="{{ width }}" height="{{ height }}" style="border:1px solid #000000;">
+        您的浏览器不支持canvas元素。
+    </canvas>
+    <img id="image" src="static/uploads/{{ pic_nam }}.jpg" style="display:none;" />
+
+    <form id="form" action="/loc_submit" method="post">
+        <label for="start">视频名：</label>
+        <input type="text" id="pic_nam" name="video_nam" value="{{ pic_nam }}" readonly><br>
+        <label for="start">起始位置：</label>
+        <input type="text" id="start" name="start" readonly><br>
+        <label for="end">结束位置：</label>
+        <input type="text" id="end" name="end" readonly><br>
+        <input type="submit" value="确认">
+    </form>
+
+    <script>
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+        var img = document.getElementById('image');
+        img.onload = function() {
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        };
+        var rect = {};
+        var drag = false;
+        $(canvas).mousedown(function(e) {
+            rect.startX = e.pageX - this.offsetLeft;
+            rect.startY = e.pageY - this.offsetTop;
+            drag = true;
+        });
+        $(canvas).mouseup(function() {
+            drag = false;
+            rect.endX = rect.startX + rect.w;
+            rect.endY = rect.startY + rect.h;
+            document.getElementById('start').value = '(' + rect.startX + ', ' + rect.startY + ')';
+            document.getElementById('end').value = '(' + rect.endX + ', ' + rect.endY + ')'
+            console.log('开始位置: (' + rect.startX + ', ' + rect.startY + ')');
+            console.log('结束位置: (' + rect.endX + ', ' + rect.endY + ')');
+        });
+        $(canvas).mousemove(function(e) {
+            if (drag) {
+                rect.w = (e.pageX - this.offsetLeft) - rect.startX;
+                rect.h = (e.pageY - this.offsetTop) - rect.startY;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                ctx.strokeRect(rect.startX, rect.startY, rect.w, rect.h);
+            }
+        });
+    </script>
+</body>
+</html>
+

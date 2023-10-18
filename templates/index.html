@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<html>
+<body>
+{% for image in images %}
+    <a href="{{ url_for('show_video', video_nam=image) }}">{{ image }}</a><br>
+    <img src="{{ url_for('static', filename='uploads/' + image +'.jpg') }}" width="300" height="150" alt="{{ pic_nam }}"><br>
+{% endfor %}
+</body>
+</html>
